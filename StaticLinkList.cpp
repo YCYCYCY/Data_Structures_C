@@ -37,3 +37,32 @@ Status ListInsert(StaticLinkList L,int i,ElemType e)
 	}
 	return ERROR;
 }
+Status ListDelete(StaticLinkList L,int i)
+{
+  int j,k;
+  if(i<1 ||i>ListLength(L))
+    return EROOR;
+  k=MAXSIZE-1;
+  for(j=1;j<=i-1;j++)
+    k=L[k].cur;
+  j=L[k].cur;
+  L[k].cur=L[j].cur;
+  Free_SSL(L,j);
+  return OK;
+}
+void Free_SSL(StaticLinkList space,int k)
+{
+  space[k].cur=space[0].cur;
+  space[0].cur=k;
+}
+int ListLength(StaticLinkList L)
+{
+  int j=0;
+  int i=L[MAXSIZE-1].cur;
+  while(i)
+  {
+    i=L[i].cur;
+    j++;
+  }
+  return j;
+}

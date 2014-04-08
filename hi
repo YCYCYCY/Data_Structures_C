@@ -1,0 +1,202 @@
+    1  sudo add-apt-repository ppa:yannubuntu/boot-repair && sudo apt-get update
+    2  sudo apt-get install -y boot-repair && (boot-repair &)
+    3  sudo gedit /etc/rc.local 
+    4  sudo gedit /etc/default/rcS 
+    5  sudo reboot
+    6  sudo gedit /etc/rc.local 
+    7  cd /media/94CE97A6CE977F64/share/
+    8  cp solarized.sh .vimrc .vimrc.bundles  ~
+    9  cd
+   10  ll
+   11  clear
+   12  sudo  gedit /etc/apt/sources.list
+   13  sudo add-apt-repository ppa:danielrichter2007/grub-customizer
+   14  sudo apt-get update
+   15  sudo apt-get install grub-customizer
+   16  grub-customizer &
+   17  sudo reboot
+   18  sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev ruby-dev mercurial
+   19  sudo apt-get remove vim vim-runtime gvim
+   20  sudo apt-get remove vim-tiny vim-common vim-gui-common
+   21  cd
+   22  hg clone https://code.google.com/p/vim/
+   23  cd vim/
+   24  ./configure --with-features=huge             --enable-rubyinterp             --enable-pythoninterp             --with-python-config-dir=/usr/lib/python2.7-config             --enable-perlinterp             --enable-gui=gtk2 --enable-cscope --prefix=/usr
+   25  make VIMRUNTIMEDIR=/usr/share/vim/vim74
+   26  sudo make install
+   27  cd
+   28  vim
+   29  git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+   30  sudo apt-get install git
+   31  git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+   32  vim
+   33  chmod +x solarized.sh 
+   34  ./solarized.sh dark
+   35  cd ~/.vim/bundle/YouCompleteMe
+   36  ./install.sh --clang-completer
+   37  sudo apt-get install cmake
+   38  ./install.sh --clang-completer
+   39  cd
+   40  vim
+   41  ll
+   42  cp -r /media/94CE97A6CE977F64/share/.ssh/ ~
+   43  l
+   44  ll
+   45  cd Documents/
+   46  git clone git@github.com:heyuanchuan/python.git
+   47  cd python/
+   48  vim class.py 
+   49  type ls
+   50  type cd
+   51  grub-customizer &
+   52  sudo reboot
+   53  grub-customizer &
+   54  firefox &
+   55  Googel\Chrome &
+   56  Googel\ Chrome &
+   57  Google\ Chrome &
+   58  Chrome &
+   59  chrome &
+   60  google-chrome
+   61  alias chrome='google-chrome'
+   62  chrome &
+   63  alias
+   64  unalias chrome
+   65  alias
+   66  chrome
+   67  alias chrome='google-chrome'
+   68  chrome &
+   69  grub custmerized
+   70  grub customizer
+   71  grub-customizer &
+   72  sudo reboot
+   73  exit
+   74  gconftool-2 --set --type=list --list-type=string /apps/gedit-2/prefences/encoding/auto_detected "[UTF-8,CURRENT,GB18030,BIG5-HKSCS,UTF-16]"
+   75  gconftool-2 --set --type=list --list-type=string /apps/gedit-2/preferences/encodings/auto_detected "[UTF-8,CURRENT,GB18030,BIG5-HKSCS,UTF-16]"
+   76  grub-customizer &
+   77  cd Documents/
+   78  chrome
+   79  chrome &
+   80  alias
+   81  alias chrome='google-chrome'
+   82  chrome &
+   83  git clone git@github.com:heyuanchuan/linux.git
+   84  cd linux/
+   85  ls
+   86  vim linux操作.txt 
+   87  vim vim使用.txt 
+   88  vim his.log git.docx github.docx 
+   89  vim git.docx 
+   90  gedit git.docx 
+   91  clear
+   92  chrome
+   93  cleat
+   94  clear
+   95  echo $PATH
+   96  chrome &
+   97  echo $HOME
+   98  echo $MAIL
+   99  uname -r
+  100  cd ..
+  101  ls
+  102  cd python/
+  103  ls
+  104  vim fun_argu.py 
+  105  vim import.py 
+  106  bash
+  107  clear
+  108  ls
+  109  clear
+  110  ls
+  111  vim fun_argu.py 
+  112  vim round_design.cpp
+  113  ls
+  114  vim round_design.py
+  115  python round_design.py 
+  116  cd
+  117  ls
+  118  ./solarized.sh light
+  119  ./solarized.sh dark
+  120  vim test.txt
+  121  python
+  122  cp test.txt ~/Documents/python/
+  123  cd -
+  124  ls
+  125  vim round_object.py
+  126  cd Documents/linux/
+  127  ls
+  128  vim vim\ 配置.docx 
+  129  gedit vim\ 配置.docx 
+  130  gedit vim使用.txt 
+  131  gsettings set org.gnome.gedit.preferences.encodings auto-detected “['GB18030', 'GB2312', 'GBK', 'UTF-8', 'BIG5', 'CURRENT', 'UTF-16']”
+  132  gsettings set org.gnome.gedit.preferences.encodings shown-in-menu “['GB18030', 'GB2312', 'GBK', 'UTF-8', 'BIG5', 'CURRENT', 'UTF-16']”
+  133  gedit vim使用.txt 
+  134  gedit -h
+  135  gedit --encoding =gbk filename
+  136  gedit --encoding =gbk vim使用.txt 
+  137  gedit --encoding =GB18030 vim使用.txt 
+  138  gconf-editor
+  139  cd Documents/
+  140  cd python/
+  141  ls
+  142  vim round_object.py 
+  143  git add .
+  144  git commmit -m "2014/4/1"
+  145  git commit -m "2014/4/1"
+  146  git push origin master
+  147  cd .
+  148  cd ..
+  149  cd linux/
+  150  vim linux操作.txt 
+  151  git add .
+  152  git commit -m "2014/4/1"
+  153  git push origin master
+  154  cd -
+  155  cd python/
+  156  vim function_object.py
+  157  python function_object.py
+  158  vim function_object.py
+  159  git add .
+  160  gir commit -m "2014/4/1"
+  161  git commit -m "2014/4/1"
+  162  git push origin master
+  163  sudo reboot
+  164  grub-customizer &
+  165  gedit /etc/default/grub 
+  166  sudo gedit /etc/default/grub 
+  167  sudo update-grub
+  168  sudo reboot
+  169  sudo gedit /etc/rc.local
+  170  sudo gedit /etc/default/grub 
+  171  sudo update-grub
+  172  sudo reboot
+  173  cd ~/Documents/Data_Structures_C/
+  174  ls
+  175  vim SqStack.cpp 
+  176  cd Documents/
+  177  git clone git@github.com:heyuanchuan/Data_Structures_C.git
+  178  cd Data_Structures_C/
+  179  vim reverse_polish.cpp 
+  180  git add .
+  181  git commit -m "reverse polish"
+  182  git push origin master
+  183  clear
+  184  vim /etc/
+  185  vim /etc/acpi/
+  186  ls /etc/acpi/
+  187  vim /etc/rc.local
+  188  sudo vim /etc/rc.local
+  189  grub-customizer &
+  190  cd -
+  191  cd Documents/Data_Structures_C/
+  192  ls
+  193  vim QElemType.cpp
+  194  git add .
+  195  git commit -m "add queue"
+  196  git push origin master
+  197  sudo reboot
+  198  cd Documents/Data_Structures_C/
+  199  ls
+  200  vim Linkstack.cpp 
+  201  grub-customizer &
+  202  history>hi

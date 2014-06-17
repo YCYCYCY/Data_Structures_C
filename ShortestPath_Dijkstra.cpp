@@ -1,7 +1,7 @@
 #define MAXVEX 9
 #define INFINITY 65535
-typedef int Patharc[MAXVEX]         //用于存储最短路径下标的数组
-typedef int ShortPathTable[MAXVEX]  //用于存储到各点最短路径的权值和
+typedef int Patharc[MAXVEX]         //用于存储起点到某节点最短路径的前驱下标的数组
+typedef int ShortPathTable[MAXVEX]  //用于存储起点到各点最短路径的权值
 //求有向网G中顶点v0到其余顶点v最短路径P[v]和带权长度D[v]
 //P[v]的值为前驱顶点下标，D[v]表示v0到v的最短路径长度和
 void ShortestPath_Dijkstra(MGraph G,int v0,Patharc *p,ShortPathTable *D)
@@ -22,16 +22,16 @@ void ShortestPath_Dijkstra(MGraph G,int v0,Patharc *p,ShortPathTable *D)
     min=INFINITY;
     for(w=0;w<G.numVertexes;++w)    //寻找离v0最近的顶点
     {
-      if(!final[w] && (*D)[w]<min)  
+      if(!final[w] && (*D)[w]<min)  //w节点还没加入最短路径中
       {
         k=w;
         min=(*D)[w];  
       }
     }
     final[k]=1;   //將找到的最近的顶点加入已找到列表中
-    for(w=0;w<G.numVertexes;++w)
+    for(w=0;w<G.numVertexes;++w)	//更新最短路径列表和各个节点的前驱
     {
-      if(!final[w] && (min+G.arc[k][w]<(*D)[w]))
+      if(!final[w] && (min+G.arc[k][w]<(*D)[w]))//起点到k节点的距离+k节点到其他节点的距离会小于现有的路径
       {
         (*D)[w]=min+G.arc[k][w];
         (*P)[w]=k;

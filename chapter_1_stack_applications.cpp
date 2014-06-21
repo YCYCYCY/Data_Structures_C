@@ -129,12 +129,12 @@ typedef struct
 }SElemType;			//栈的元素类型
 Status MazePath(MazeType maze,PosType start,PosType end){
 	InitStack(S);
-	curpos=start;
+	curpos=start;//当前位置为入口位置
 	curstep=1;
 	do{
 		if(Pass(curpos)){	//当前位置可以通过，即是未曾走到过的通道块
 			FootPrint(curpos);	//留下足迹
-			e=(curstep,curpos,1);
+			e=(curstep,curpos,1);//SElemType类型
 			Push(S,e);	//加入路径
 			if(curpos==end)		//到达路径
 				return TRUE;
@@ -158,3 +158,42 @@ Status MazePath(MazeType maze,PosType start,PosType end){
 	}while(!StackEmpty(S));
 	return FALSE;
 }
+
+
+
+
+
+
+//表达式求解
+//为实现算符优先算法，可以使用两个工作栈。一个称为OPTR，用以寄存运算符；另一个称作OPND，用以寄存操作数或运算结果。
+//（1）首先置操作数栈为空，表达式起始符'#'为运算符栈的栈底元素
+//（2）依次读入表达式中每个字符，若是操作数则进OPND栈，若是运算符则和OPTR栈的栈顶运算符比较优先权后作相应操作，直至整个表达式求值完毕
+OprandType EvaluateExpression(){
+	//设OPTR和OPND分别为运算符栈和运算数栈
+	//OP为运算符集合
+	InitStack(OPTR);
+	InitStack(OPND);
+	Push(OPTR,'#');
+	c=getchar();
+	while(c!='#'||GetTop(OPTR)!='#'){
+		if(!In(c,op))	//c不是运算符，则进运算数栈
+			Push(OPND,c);
+		else
+			switch(Precede(GetTop(OPTR),c))
+			{
+			case '<':	//操作符栈栈顶元素优先权低于c
+				Push(OPTR,c);
+				break;
+			case '=':	//等号时为括号匹配。
+				pop(OPTR,x);
+				break;
+			case '>':
+				Pop(OPTR,theta);
+				Pop(OPND,b);
+				Pop(OPND,a);
+				Push(OPND,Operate(a,theta,b));
+				break;
+			}//END SWITCH
+	}//END WHILE
+	return GetTop(OPND);
+}//END EVALUATEEXPRESSION

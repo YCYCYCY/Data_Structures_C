@@ -29,7 +29,7 @@ typedef struct
 typedef struct Chunk
 {
 	char ch[CHUNKSIZE];
-	struct Chunk *next;
+	struct Chunk *next; 
 }Chunk;
 typedef struct 
 {
@@ -55,4 +55,38 @@ int Index (String S,String T,int pos)
 		}
 	}
 	return 0;
+}
+
+
+int  Index(string s,string t,int pos)
+{
+	i=pos;
+	j=1;
+	while(i<=s[0]&&j<=t[0])
+		if(s[i]==t[j])
+	{
+		++i;
+		++j;
+	}
+	else
+	{
+		i=i-j+2;
+		j=1;
+	}
+	if(j>T[0])
+		return i-T[0];
+	else
+		return 0;
+}
+
+
+int strCompare(String s,String t)
+{
+	//s>t,返回一个大于0的数
+	//s=t,返回0
+	//s<t,返回小于0的数
+	for(i=0;i<s.length&&i<t.length;++i)
+		if(s.ch[i]!=t.ch[i])
+		return s.ch[i]-t.ch[i];
+	return s.length-t.length;
 }

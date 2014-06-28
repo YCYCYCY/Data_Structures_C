@@ -189,4 +189,21 @@ Status CreateSMatrix_OL(CrossList &M)
 		}//end if:插入到chead列表中
 	}
 	return OK;
+
 }//end createSMatrix_OL
+
+//广义表
+//广义表中的元素既可以是单个元素，也可以是广义表，分别成为LS的原子和子表。
+typedef enum {ATOM,LIST}ElemTag;	//ATOM==0:原子，LIST==1:子表
+typedef struct GLNode
+{
+	ElemTag atom;
+	union 
+	{
+		AtomType atom;
+		struct 
+		{
+			struct{struct GLNode *hp,*tp}ptr;
+		};
+	};
+}*GList;

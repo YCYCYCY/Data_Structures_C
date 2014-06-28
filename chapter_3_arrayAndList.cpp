@@ -129,3 +129,64 @@ Status MultSMatrix(RLSMatrix M1,RLSMatrix M2,RLSMatrix &Result)
 		}//end for(arow=1;arow<=M1.mu;++arow) 遍历每一行
 	}//end if(M1.tu*M2.tu!=0)
 }
+
+
+
+//十字链表
+//每一个非零元可用一个含5个域的节点表示，其中i、j和e这3个域分别表示该非零元所在的行 、列和非零元的值，
+//向右域right用以链表同一行中下一个非零元，向下域down用以链接同一列中下一个非零元。
+//同一行的非零元通过right域链表结成一个线性链表，同一列的非零元通过down域链接成一个线性链表
+//用两个分别存储行链表的头指针和列链表的头指针的一维数组
+typedef struct OLNode
+{
+	int i,j;			//非零元的行和列下标
+	ElemType e;
+	struct OLNode *right,*down;	//向右域和向下域
+}OLNode,*OLink;
+typedef struct 
+{
+	OLink *rhead,*chead;	//行链表和列链表头指针向量基址有CreateSMatrix分配
+	int mu,nu,tu;			//行数、列数、非零元个数
+}CrossList;
+Status CreateSMatrix_OL(CrossList &M)
+{
+	if(M)	free(M);
+	scanf(&m,$n,&t);//输入行数、列数、非零元个数
+	M.mu=m;
+	M.nu=n;
+	M.tu=t;
+	if(!(M.rhead=(OLink*)malloc((m+1)*sizeof(OLink))))	exit(OVERFLOW);
+	if(!(M.chead=(OLink*)malloc((n+1)*sizeof(OLink))))	exit(OVERFLOW);
+	M.rhead[]=M.chead[]=NULL;//初始化行列头指针向量
+	for(scanf(&i,&j,&e);i!=0;scanf(&i,&j,&e))//按任意次序输入非零元	
+	{
+		if(!(p=(OLNode*)malloc(sizeof(OLNode))))	exit(OVERFLOW);
+		p->i=i;
+		p->j=j;
+		p->e=e;
+		if(M.rhead[i]==NULL || M.rhead[i]->j>j)	//插入到最前方
+		{
+			p->right=M.rhead[i];
+			M.rhead[i]=p;
+		}
+		else
+		{
+			//找到插入的位置
+			for(q=M.rhead[i];q->right && q->right->j<j;q=q->right){	pre=q;}
+			p->right=q;
+			pre->right=p;
+		}//end if:插入到rhead列表中
+		if(M.chead[j]==NULL ||M.chead[j]->i>i)
+		{
+			p->down=M.chead[j];
+			M.chead[j]=p;
+		}
+		else
+		{
+			for(q=M.chead[j];q->down && q->down->i<i;q=q->down) {pre=q;}
+			p->down=q;
+			pre->down=p;
+		}//end if:插入到chead列表中
+	}
+	return OK;
+}//end createSMatrix_OL

@@ -16,27 +16,119 @@ typedef struct BiTNode
   int data;
   struct BiTNode *lchild,*rchild;
 }BiTNode,*BiTree;
-//先序遍历
+//先序遍历递归实现
 Status PreOrderTraverse(BiTree T,Status (*Visit)(TElemType e))	
 {
-	if(T==NULL)
-	{
-		return true;
-		
-	}
-	else
+	if(T!=NULL)
 	{
 		Visit(T->data);
 		PreOrderTraverse(T->lchild,visit);
 		PreOrderTraverse(T->rchild,visit);
 	}
 }
+void PreOrderTraverse_(BiTree T, Status (*Visit)(TElemType e))
+{
+	stack<BiTNode> s;
+	BiTree p=T;
+	while(p!=NULL ||!s.empty())
+	{
+		while(p!=NULL)
+		{
+			Visit(p->data);
+			s.push(p);
+			p=p->lchild;
+		}
+		while(!s.empty())
+		{
+			p=s.top();
+			s.pop();
+			p=p->rchild; 
+		}
+	}
+}
 //中序遍历
-Status InOrderTraverse(BiTree T,Status (*visit)(TElemType e));	
+Status InOrderTraverse(BiTree T,Status (*Visit)(TElemType e))
+{
+	if(T!=NULL)
+	{
+		InOrderTraverse(T->lchild,Visit);
+		Visit(T->data);
+		InOrderTraverse(T->rchild,Visit);
+	}
+}
+Status InOrderTraverse_(BiTree T,Status (*Visit)(TElemType e))
+{
+	stack<BiTNode> s;
+	BiTree p=T;
+	while(p!=NULL ||!s.empty())
+	{
+		while(p!=NULL)
+		{
+			s.push(p);
+			p=p->lchild;
+		}
+		while(!s.empty())
+		{
+			p=s.top();
+			s.pop();
+			Visit(p->data);
+			p=p->rchild;
+		}
+	}
+}
 //后序遍历
-Status PostOrderTraverse(BiTree T,Status (*Visit)(TElemType e));	
+Status PostOrderTraverse(BiTree T,Status (*Visit)(TElemType e))
+{
+	if(T!=NULL)
+	{
+		Visit(T->data);
+		InOrderTraverse(T->lchild,Visit);
+		InOrderTraverse(T->rchild,Visit);
+	}
+}
+Status PostOrderTraverse_(BiTree T,Status (*Visit)(TElemType e))
+{
+	stack<BiTNode>s;
+	BiTree *cur;
+	biTree *pre=NULL;
+	s.push(T);
+	while(!s.empty())
+	{
+		cur=s.top();
+		if((cur->lchild==NULL&&cur->rchild==NULL)||
+			(pre!=NULL&&(pre==cur->lchild||pre==cur->rchild)))
+		{
+			Visit(cur->data);
+			s.pop();
+			pre=cur;
+		}
+		else
+		{
+			if(cur->rchild!=NULL)
+				s.push(cur->rchild);
+			if(cur->lchild!=NULL)
+				s.push(cur->lchild);
+		}
+	}
+}
 //层序遍历
-Status LevelOrderTraverse(BiTree T,Status (*Visit)(TElemType e));	
+Status LevelOrderTraverse(BiTree T,Status (*Visit)(TElemType e))
+{
+	
+	BiNode node[MAXSIZE];
+	node[0]=T;
+	int cur=0;
+	int pos=cur;
+	while(node[cur])
+	{
+		Visit(node[cur]->data);
+		if(node[cur]->lchild)
+			node[++pos]=node[cur]->lchild;
+		if(node[cur]->rchild)
+			node[++pos]=node[cur]->lchild;
+		++cur;
+	}
+}
 
 //向二叉树中插入元素
 void insert_bitree(BiTNode *p,BiTree *T)

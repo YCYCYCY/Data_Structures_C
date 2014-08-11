@@ -60,7 +60,7 @@ Status InOrderTraverse_(BiTree T,Status (*Visit)(TElemType e))
 {
 	stack<BiTNode> s;
 	BiTree p=T;
-	while(p!=NULL ||!s.empty())
+	while(p!=NULL||!s.empty())
 	{
 		while(p!=NULL)
 		{
@@ -232,3 +232,115 @@ int main()
   printf("%d,%d,%d",p->data,p->lchild->data,p->rchild->data);
   return 0;
 }
+
+
+//线索二叉树
+typedef enum PointerTag {Link,Thread};//Link==0，指针；Thread==1，线索。
+typedef struct BiThrNode
+{
+	TElemType data;
+	struct BiThrNode *lchild,*rchild;
+	PointerTag LTag,Rtag;
+}BiThrNode,*BiThrTree;
+//添加一个头结点，其lchild域的指针指向二叉树的根节点，其rchild域的指针指向中序遍历时访问的最后一个节点
+//这好比为二叉树建立了一个双向线索链表
+Status InOrderTraverse_Thr(BiThrTree T,Status (*Visit)(TElemType e))
+{
+	//T指向头结点，头结点的左链lchild指向根结点
+	p=T->lchild;
+	while(p!=T)
+	{
+		while(p->LTag==Link)
+			p=p->lchild;
+		Visit(p->data);
+		while(p->RTag==Thread && p->rchild!=T)
+		{
+			p=p->rchild;
+			Visit(p->data);
+		}
+		p=p->rchild;
+	}
+	return OK;
+}
+
+//二叉树线索化
+Status InOrderThreading(BiThrTree &Thrt,BiThrTree T)
+{
+	if(!(Thr=(BiThrTree)malloc(sizeof(BiThrNode)))) exit(OVERFLOW);
+	Thr->LTag=Link;
+	Thr->RTag=Thread;
+	Thr->rchild=Thr;
+	if(!T)
+		Thr->lchild=Thr;
+	else
+	{
+		Thr->lchild=T;
+		pre=Thrt;
+		InThreading(T);
+		pre->rchild=Thrt;//最后一个结点线索化
+		pre->RTag=Thread;
+		Thrt->rchild=pre;
+	}
+	return OK;
+}
+void InThreading(BiThrTree p)
+{
+	if(p)
+	{
+		InThread(p->lchild);
+		if(!p->lchild)
+		{
+			p->LTag=Thread;
+			p->lchild=pre;
+		}
+		if(!pre->rchild)
+		{
+			pre->RTag=Thread;
+			pre->rchild=p;
+		}
+		pre=p;
+		InThreading(p->rchild);
+	}
+}
+
+//树的存储结构
+//双亲表示法
+//一组连续空间存储树的结点
+#define MAX_TREE_SIZE 100
+typedef struct PTNode	//结点结构
+{
+	TElemType data;
+	int parent;		//双亲位置域
+}PTNode;
+typedef struct		//树结构
+{
+	PTNode nodes[MAX_TREE_SIZE];
+	int r,n;		//跟的位置和结点数
+}PTree;
+//孩子表示法
+typedef struct CTNode	//child node
+{
+	int child;
+	struct CTNode *next;
+}*ChildPtr;
+typedef struct
+{
+	TElemType data;
+	ChildPtr firstchild;	//孩子链表头指针
+}CTBox;
+typedef struct 
+{
+	CTBox node[MAX_TREE_SIZE];
+	int n,r;
+}CTree;
+//孩子兄弟表示法
+typedef struct CSNode
+{
+	ElemType data;
+	struct CSNode *firstchild,*nextsibing;
+};
+
+
+//森林与二叉树的转换
+//孩子兄弟表示法
+//森林的先序和中序遍历即为其对应二叉树的先序和中序遍历

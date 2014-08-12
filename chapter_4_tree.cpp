@@ -344,3 +344,53 @@ typedef struct CSNode
 //森林与二叉树的转换
 //孩子兄弟表示法
 //森林的先序和中序遍历即为其对应二叉树的先序和中序遍历
+
+//赫夫曼树(Huffman)的构造过程
+/*
+1 根据给定的n个权值构成n棵二叉树的集合F。
+2 在F中选取两棵根节点的权值最小的数作为左右子树构造一颗新的二叉树，且新的二叉树的根节点的权值为其左右子树上根节点的权值之和。
+3 在F中删除这两棵子树，将新得到的二叉树加入F中。
+4 重复步骤2和3，知道F中所有二叉树都合并为止。
+*/
+typedef struct 
+{
+	unsigned int weight;
+	unsigned int parent,lchild,rchild;
+}HTNode,*HuffmanTree;	//动态分配数组存储赫夫曼树
+typedef char ** HuffmanCode;	//动态分配数组存储赫夫曼编码表
+void HuffmanCoding(HuffmanTree &HT,HuffmanCode &HC,int *w,int n)
+//w存放n个字符的权值，构造赫夫曼树HT，并求出n个字符的赫夫曼编码HC
+{
+	if(n<=1) return;
+	m=2*n-1;//合并n-1次，故共有2n-1个元素
+	HT=(HuffmanTree)malloc((m+1)*sizeof(HTNode));//0号单元不用
+	for(p=HT+1,i=1;i<=n;++i,++p,++w)	//从1号单元开始，初始化为各个字符的权值
+		*p={*w,0,0,0};
+	for(;i<=m;++i,++p)	*p={0,0,0,0};
+	for(i=n+1;i<=m;++i)	//建赫夫曼树
+	{
+		//在HT[1...i-1]中选择parent=0且weight值最小的两个节点，期序号分别为s1和s2.
+		Select(HT,i-1,s1,s2);
+		HT[s1].parent=i;
+		HT[s2].parent=i;
+		HT[i].lchild=s1;
+		HT[i].rchild=s2;
+		HT[i].weight=HT[s1].weight+HT[s2].weight;
+	}
+
+	//从叶子到根逆向求每个字符的赫夫曼编码
+	HC=(HuffmanCode)malloc((n+1)*sizeof(char*));
+	cd=(char*)malloc(n*sizeof(char));
+	cd[n-1]='\0';
+	for(i=1;i<=n;++i)
+	{
+		start=n-1;
+		for(c=i,f=HT[i].parent;f!=0;c=f,f=HT[f].parent)//从叶子节点到根逆向求编码
+			if(HT[f].lchild==c)		cd[--start]='0';
+			else cd[--start]='1';
+		HC[i]=(char *)malloc((n-start)*sizeof(char));	//为第i个字符编码分配空间
+		strcpy(HC[i],&cd[start]);
+	}
+	free(cd);
+}
+//赫夫曼编码

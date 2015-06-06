@@ -16,6 +16,14 @@ typedef struct BiTNode
   int data;
   struct BiTNode *lchild,*rchild;
 }BiTNode,*BiTree;
+int depth(BiTNode* T)
+{
+	if(T == null)
+		return 0;
+	int ld = depth(phead->lchild);
+	int rd = depth(phead->rchild);
+	return (ld>rd)?ld:rd + 1;
+}
 //先序遍历递归实现
 Status PreOrderTraverse(BiTree T,Status (*Visit)(TElemType e))	
 {
@@ -81,9 +89,9 @@ Status PostOrderTraverse(BiTree T,Status (*Visit)(TElemType e))
 {
 	if(T!=NULL)
 	{
+		PostOrderTraverse(T->lchild,Visit);
+		PostOrderTraverse(T->rchild,Visit);
 		Visit(T->data);
-		InOrderTraverse(T->lchild,Visit);
-		InOrderTraverse(T->rchild,Visit);
 	}
 }
 Status PostOrderTraverse_(BiTree T,Status (*Visit)(TElemType e))
